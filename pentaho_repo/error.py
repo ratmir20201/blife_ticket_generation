@@ -8,12 +8,13 @@ select log_field, jobname from (
 	from public.r_job_log 
 	where jobname in ('STAGE_DO', 'DWH', 'DI', 'DM_DAILY_MAIN') 
 	    and logdate::date = %s
+	    and log_field ilike '%ERROR%'
 ) T
 where T.rn = 1;
 """
 
 
-def get_errors() -> list[tuple[str, str]]:
+def get_logs_with_errors() -> list[tuple[str, str]]:
     with get_postgres_connection() as conn:
         cursor = conn.cursor()
 
@@ -22,7 +23,3 @@ def get_errors() -> list[tuple[str, str]]:
         result = cursor.fetchall()
 
         return result
-
-
-if __name__ == "__main__":
-    get_errors()
