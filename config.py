@@ -8,9 +8,6 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent
 
 
-
-
-
 class PentahoRepoSettings(BaseSettings):
     """Настройки pentaho репозитория."""
 
@@ -37,7 +34,7 @@ class PentahoRepoSettings(BaseSettings):
 class Settings(BaseSettings):
     """Общие настройки приложения."""
 
-    repo: PentahoRepoSettings = PentahoRepoSettings()
+    pentaho_repo: PentahoRepoSettings = PentahoRepoSettings()
 
 
 settings = Settings()
