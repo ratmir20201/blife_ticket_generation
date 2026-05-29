@@ -10,3 +10,5 @@ def make_message_for_blife(logs_list: list[tuple[str, str]]):
             message += f"Ошибка в {jobname}"
 
         message += f"\nЛОГ: \n{log_field}\n\n\n"
+
+    return message
