@@ -9,6 +9,7 @@ from logger import logger
 def add_task_in_blife(description: str):
     blife_url = settings.blife.url
     responsible_id = settings.blife.user_id
+    group_id = settings.blife.group_id
 
     add_method = blife_url + "tasks.task.add.json"
 
@@ -19,6 +20,7 @@ def add_task_in_blife(description: str):
             "TITLE": f"Задача по исправлению ошибок АЦ на {today}",
             "DESCRIPTION": description,
             "RESPONSIBLE_ID": responsible_id,
+            "GROUP_ID": group_id,
         }
     }
 

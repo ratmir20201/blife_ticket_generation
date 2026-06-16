@@ -36,6 +36,7 @@ class BlifeSettings(BaseSettings):
 
     token: str = ""
     user_id: int = 0
+    group_id: int = 0
 
     @property
     def url(self) -> dict:
