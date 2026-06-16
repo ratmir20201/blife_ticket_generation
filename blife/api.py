@@ -34,3 +34,19 @@ def add_task_in_blife(description: str):
             )
     except Exception as e:
         logger.error("Произошла непредвиденная ошибка при работе с API: %s", e)
+
+
+def add_file_on_disk(file_path: str):
+    blife_url = settings.blife.url
+    upload_file_method = blife_url + "disk.folder.uploadfile.json"
+
+    data = {"id": str(settings.blife.folder_id)}
+
+    with open(file_path, "rb") as f:
+        files = {"file": f}
+
+        response = requests.post(
+            upload_file_method,
+            data=data,
+            files=files,
+        )

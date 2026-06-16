@@ -6,6 +6,7 @@ from pydantic_settings import BaseSettings
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent
+LOGS_DIR = BASE_DIR / "logs"
 
 
 class PentahoRepoSettings(BaseSettings):
@@ -37,6 +38,7 @@ class BlifeSettings(BaseSettings):
     token: str = ""
     user_id: int = 0
     group_id: int = 0
+    folder_id: int = 0
 
     @property
     def url(self) -> dict:

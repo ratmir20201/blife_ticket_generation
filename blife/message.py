@@ -8,11 +8,11 @@ def make_message_description_for_blife(logs_list: list[tuple[str, str]]):
         if "Error connecting to database" in log_field:
             error = f"Ошибка с подключением к источнику в {jobname}"
             message += error
-            description += error
+            description += "\n" + error
         else:
             error = f"Ошибка в {jobname}"
             message += error
-            description += error
+            description += "\n" + error
 
         message += f"\nЛОГ: \n{log_field}\n\n\n"
 
