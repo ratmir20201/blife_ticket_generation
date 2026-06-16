@@ -42,11 +42,27 @@ def add_file_on_disk(file_path: str):
 
     data = {"id": str(settings.blife.folder_id)}
 
-    with open(file_path, "rb") as f:
-        files = {"file": f}
+    try:
+        with open(file_path, "rb") as f:
+            files = {"file": f}
 
-        response = requests.post(
-            upload_file_method,
-            data=data,
-            files=files,
-        )
+            response = requests.post(
+                upload_file_method,
+                data=data,
+                files=files,
+            )
+
+            if response.status_code not in (200, 201):
+                logger.error(
+                    "Ошибка при создании загрузки файла на диск blife. Статус код: %s",
+                    response.status_code,
+                )
+
+            json_data = response.json()
+            print(json_data)
+
+            result = json_data.get("result")
+            upload_url = result.get("uploadUrl")
+            print(upload_url)
+    except Exception as e:
+        logger.error("Произошла непредвиденная ошибка при работе с API: %s", e)
