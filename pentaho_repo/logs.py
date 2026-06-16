@@ -7,7 +7,7 @@ get_current_day_job_logs = """
 select log_field, jobname from (
   select log_field, logdate, jobname, row_number() over(partition by jobname order by logdate asc) as rn 
   from public.r_job_log 
-  where jobname in ('STAGE_DO', 'DWH', 'DI', 'DM_DAILY_MAIN', 'HR_REPORTS', 'BLIFE_MAIN', 'FRP_1C_WRAPPER_INNER', 'BLIFE_DI_ALL') 
+  where jobname in ('STAGE_DO', 'HUBS', 'LINKS', 'SATELLITES', 'DI', 'DM_DAILY_MAIN', 'HR_REPORTS', 'BLIFE_MAIN', 'FRP_1C_WRAPPER_INNER', 'BLIFE_DI_ALL') 
       and logdate::date = %s
       and log_field ilike '%%ERROR%%'
 ) T
@@ -19,7 +19,7 @@ get_current_day_transform_logs = """
 select log_field, transname from (
   select log_field, logdate, transname, row_number() over(partition by transname order by logdate asc) as rn 
   from public.r_trans_log
-  where transname in ('DI_EXCHANGE_RATES', 'DM_LOAN_PORTFOLIO_15', 'DM_LOAN_PORTFOLIO_18', 'DO_CONNECTION_CHECK', 'FRP_1C_ANALYSIS_MAP'
+  where transname in ('DI_EXCHANGE_RATES', 'AS_HUBS', 'AS_LINKS', 'AS_SATELLITES', 'DM_LOAN_PORTFOLIO_15', 'DM_LOAN_PORTFOLIO_18', 'DO_CONNECTION_CHECK', 'FRP_1C_ANALYSIS_MAP'
     'GetToniaData', 'TRANS_LOG') 
       and logdate::date = %s
       and log_field ilike '%%ERROR%%'
