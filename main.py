@@ -13,6 +13,8 @@ message, description = make_message_description_for_blife(errors_list)
 # print(message, description)
 
 try:
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+
     today = date.today()
     filename = "log_" + today.strftime("%Y%m%d") + ".txt"
     file_path = LOGS_DIR / filename
