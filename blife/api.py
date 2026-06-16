@@ -27,11 +27,18 @@ def add_task_in_blife(description: str):
     try:
         response = requests.post(add_method, json=payload)
 
+        json_data = response.json()
+        result = json_data.get("result")
+        task = result.get("task")
+        task_id = task.get("id")
+
         if response.status_code not in (200, 201):
             logger.error(
                 "Ошибка при создании задачи в blife. Статус код: %s",
                 response.status_code,
             )
+
+        return task_id
     except Exception as e:
         logger.error("Произошла непредвиденная ошибка при работе с API: %s", e)
 
@@ -59,10 +66,23 @@ def add_file_on_disk(file_path: str):
                 )
 
             json_data = response.json()
-            print(json_data)
-
             result = json_data.get("result")
             upload_url = result.get("uploadUrl")
-            print(upload_url)
+
+            file_id = add_file_by_upload_url(upload_url, file_path)
+            return file_id
     except Exception as e:
         logger.error("Произошла непредвиденная ошибка при работе с API: %s", e)
+
+
+def add_file_by_upload_url(upload_url: str, file_path: str):
+    with open(file_path, "rb") as f:
+        files = {"file": f}
+
+        response = requests.post(upload_url, files=files)
+
+        json_data = response.json()
+        result = json_data.get("result")
+        file_id = result.get("ID")
+
+        return file_id
