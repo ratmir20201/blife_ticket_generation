@@ -13,6 +13,7 @@ today = date.today()
 if not errors_list:
     logger.info("Ошибок на %s нету", today)
 else:
+    logger.info("Найдены ошибки создается задача в blife")
     message, description = make_message_description_for_blife(errors_list)
 
     try:
