@@ -2,6 +2,7 @@ from datetime import date
 
 from logger import logger
 from pentaho_repo.connection import get_postgres_connection
+from utils import merge_blife_main_sur_logs
 
 get_current_day_job_logs = """
 select log_field, jobname from (
@@ -53,6 +54,9 @@ def get_logs_with_errors() -> list[tuple[str, str]]:
         cursor.execute(blife_main_sur_logs, (today, today))
         result_3 = cursor.fetchall()
 
-        general_result = result_1 + result_2 + result_3
+        pretty_result = merge_blife_main_sur_logs(result_3)
+        print(pretty_result)
+
+        general_result = result_1 + result_2 + pretty_result
 
         return general_result

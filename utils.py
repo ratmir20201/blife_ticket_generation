@@ -18,3 +18,14 @@ def clear_log_directory():
             os.remove(item_path)
         elif os.path.isdir(item_path):
             shutil.rmtree(item_path)
+
+
+def merge_blife_main_sur_logs(sql_result: list[tuple[str, str]]):
+    merged_log = ""
+
+    for log_field, jobname in sql_result:
+        merged_log += log_field + "\n"
+
+    jobname = sql_result[0][1]
+
+    return [(merged_log, jobname)]

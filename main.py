@@ -22,8 +22,6 @@ try:
     task_id = add_task_in_blife(description)
     file_id = add_file_on_disk(file_path)
 
-    print(task_id, file_id)
-
     attach_file_to_task(task_id, file_id)
 finally:
     clear_log_directory()
