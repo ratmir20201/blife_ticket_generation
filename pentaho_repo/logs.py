@@ -55,7 +55,6 @@ def get_logs_with_errors() -> list[tuple[str, str]]:
         result_3 = cursor.fetchall()
 
         pretty_result = merge_blife_main_sur_logs(result_3)
-        print(pretty_result)
 
         general_result = result_1 + result_2 + pretty_result
 
