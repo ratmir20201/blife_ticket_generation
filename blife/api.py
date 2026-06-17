@@ -17,7 +17,7 @@ def add_task_in_blife(description: str):
 
     payload = {
         "fields": {
-            "TITLE": f"Задача по исправлению ошибок АЦ на {today}",
+            "TITLE": f"Задача по исправлению ошибок в АЦ на {today}",
             "DESCRIPTION": description,
             "RESPONSIBLE_ID": responsible_id,
             "GROUP_ID": group_id,
@@ -41,6 +41,7 @@ def add_task_in_blife(description: str):
         return task_id
     except Exception as e:
         logger.error("Произошла непредвиденная ошибка при работе с API: %s", e)
+        return None
 
 
 def add_file_on_disk(file_path: str):
@@ -73,6 +74,7 @@ def add_file_on_disk(file_path: str):
             return file_id
     except Exception as e:
         logger.error("Произошла непредвиденная ошибка при работе с API: %s", e)
+        return None
 
 
 def add_file_by_upload_url(upload_url: str, file_path: str):
@@ -86,3 +88,20 @@ def add_file_by_upload_url(upload_url: str, file_path: str):
         file_id = result.get("ID")
 
         return file_id
+
+
+def attach_file_to_task(task_id: int, file_id: int):
+    blife_url = settings.blife.url
+
+    attach_method = blife_url + "tasks.task.files.attach.json"
+    payload = {"taskId": task_id, "fileId": file_id}
+    try:
+        response = requests.post(attach_method, json=payload)
+
+        if response.status_code not in (200, 201):
+            logger.error(
+                "Ошибка при прикреплении файла к задаче blife. Статус код: %s",
+                response.status_code,
+            )
+    except Exception as e:
+        logger.error("Произошла непредвиденная ошибка при работе с API: %s", e)
