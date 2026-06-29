@@ -42,7 +42,7 @@ class BlifeSettings(BaseSettings):
 
     @property
     def url(self) -> dict:
-        return f"https://test-blife.baiterek.gov.kz/rest/{self.user_id}/{self.token}/"
+        return f"https://blife.baiterek.gov.kz/rest/{self.user_id}/{self.token}/"
 
     class Config:
         env_prefix = "BLIFE__"
