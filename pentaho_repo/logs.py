@@ -10,7 +10,7 @@ select log_field, jobname from (
   from public.r_job_log 
   where jobname in ('STAGE_DO', 'HUBS', 'LINKS', 'SATELLITES', 'DI', 'DM_DAILY_MAIN', 'HR_REPORTS', 'BLIFE_MAIN', 'FRP_1C_WRAPPER_INNER', 'BLIFE_DI_ALL') 
       and logdate::date = %s
-      and log_field ilike '%%ERROR%%'
+      and log_field ilike '%% ERROR %%'
 ) T
 where T.rn = 1;
 """
@@ -23,7 +23,7 @@ select log_field, transname from (
   where transname in ('DI_EXCHANGE_RATES', 'AS_HUBS', 'AS_LINKS', 'AS_SATELLITES', 'DM_LOAN_PORTFOLIO_15', 'DM_LOAN_PORTFOLIO_18', 'DO_CONNECTION_CHECK', 'FRP_1C_ANALYSIS_MAP'
     'GetToniaData', 'TRANS_LOG') 
       and logdate::date = %s
-      and log_field ilike '%%ERROR%%'
+      and log_field ilike '%% ERROR %%'
 ) T
 where T.rn = 1;
 """
@@ -34,7 +34,7 @@ from public.r_job_log
 where jobname = 'BLIFE_MAIN_SUR'
     and logdate >= date_trunc('day', %s) - interval '1 day' + interval '7 hour'
     and logdate < date_trunc('day', %s) + interval '7 hour' + interval '25 minutes'
-    and log_field ilike '%%ERROR%%'
+    and log_field ilike '%% ERROR %%'
 """
 
 
