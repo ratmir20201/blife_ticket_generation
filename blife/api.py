@@ -8,7 +8,7 @@ from logger import logger
 
 def add_task_in_blife(description: str):
     blife_url = settings.blife.url
-    responsible_id = settings.blife.user_id
+    responsible_id = settings.blife.responsible_id
     group_id = settings.blife.group_id
 
     add_method = blife_url + "tasks.task.add.json"
