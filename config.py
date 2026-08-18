@@ -39,7 +39,8 @@ class BlifeSettings(BaseSettings):
     user_id: int = 0
     group_id: int = 0
     folder_id: int = 0
-    responsible_id: int = 0
+    a2_responsible_id: int = 0
+    holding_responsible_id: int = 0
 
     @property
     def url(self) -> dict:

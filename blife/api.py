@@ -1,23 +1,18 @@
-from datetime import date
-
 import requests
 
 from config import settings
 from logger import logger
 
 
-def add_task_in_blife(description: str):
+def add_task_in_blife(title: str, description: str, responsible_id: int):
     blife_url = settings.blife.url
-    responsible_id = settings.blife.responsible_id
     group_id = settings.blife.group_id
 
     add_method = blife_url + "tasks.task.add.json"
 
-    today = date.today()
-
     payload = {
         "fields": {
-            "TITLE": f"Задача по исправлению ошибок в АЦ на {today}",
+            "TITLE": title,
             "DESCRIPTION": description,
             "RESPONSIBLE_ID": responsible_id,
             "GROUP_ID": group_id,

@@ -37,6 +37,17 @@ where jobname = 'BLIFE_MAIN_SUR'
     and log_field ilike '%% ERROR %%'
 """
 
+get_blife_smart_process_today_errors = """
+select log_field, transname from (
+  select log_field, logdate, transname, row_number() over(partition by transname order by logdate asc) as rn 
+  from public.r_trans_log
+  where transname = 'BLIFE_SMART_PROCESS'
+      and logdate::date = %s
+      and log_field ilike '%% ERROR %%'
+) T
+where T.rn = 1;
+"""
+
 
 def get_logs_with_errors() -> list[tuple[str, str]]:
     today = date.today()
@@ -61,3 +72,18 @@ def get_logs_with_errors() -> list[tuple[str, str]]:
         general_result = result_1 + result_2 + pretty_result
 
         return general_result
+
+
+def check_blife_smart_process_is_good() -> bool:
+    today = date.today()
+    logger.info("Запускается запрос на проверку BLIFE_SMART_PROCESS за %s", today)
+
+    with get_postgres_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(get_blife_smart_process_today_errors, (today,))
+
+        result = cursor.fetchone()
+
+        if result is None:
+            return True
+        return False
