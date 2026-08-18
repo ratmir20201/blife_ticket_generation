@@ -2,6 +2,10 @@ from datetime import date
 
 from blife.api import add_file_on_disk, add_task_in_blife, attach_file_to_task
 from blife.message import make_message_description_for_blife
+from blife_qic_check.check import (
+    check_blife_qic_data,
+    check_blife_smart_process_is_good,
+)
 from config import LOGS_DIR
 from logger import logger
 from pentaho_repo.logs import get_logs_with_errors
@@ -29,3 +33,7 @@ else:
         attach_file_to_task(task_id, file_id)
     finally:
         clear_log_directory()
+
+
+if check_blife_smart_process_is_good():
+    check_blife_qic_data()

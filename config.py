@@ -49,11 +49,35 @@ class BlifeSettings(BaseSettings):
         env_prefix = "BLIFE__"
 
 
+class DbSettings(BaseSettings):
+    """Настройки базы данных."""
+
+    user: str = "user"
+    password: str = "password"
+    host: str = "postgres"
+    port: str = "5432"
+    name: str = ""
+
+    @property
+    def conn_info(self) -> dict:
+        return {
+            "host": self.host,
+            "port": self.port,
+            "user": self.user,
+            "password": self.password,
+            "database": self.name,
+        }
+
+    class Config:
+        env_prefix = "DB__"
+
+
 class Settings(BaseSettings):
     """Общие настройки приложения."""
 
     pentaho_repo: PentahoRepoSettings = PentahoRepoSettings()
     blife: BlifeSettings = BlifeSettings()
+    db: DbSettings = DbSettings()
 
 
 settings = Settings()
