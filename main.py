@@ -1,3 +1,8 @@
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning, module="vertica_python")
+
+
 from datetime import date, timedelta
 
 from blife.api import add_task_in_blife, add_file_on_disk, attach_file_to_task
@@ -49,12 +54,15 @@ if today.weekday() == 4:
         max_period = get_max_blife_qic_period()
 
         if max_period != yesterday:
+            logger.info(
+                "Обнаружена недогруженность QIC (Освоение), запускается создание задачи в blife."
+            )
             add_task_in_blife(
-                title=f"Не загружены данные за {today} — QIC",
+                title=f"Не загружены данные за {yesterday} - QIC",
                 description=f"""
                 Добрый день!
                  
-                Автоматизированной проверкой выявлено отсутствие данных от QIC (Освоение) за отчетную дату {yesterday}.
+            Автоматизированной проверкой выявлено отсутствие данных от QIC (Освоение) за отчетную дату {yesterday}.
                 """,
                 responsible_id=settings.blife.holding_responsible_id,
             )

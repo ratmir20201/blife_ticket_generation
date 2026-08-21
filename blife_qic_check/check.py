@@ -14,7 +14,10 @@ def get_max_blife_qic_period():
         cursor = conn.cursor()
         cursor.execute(QIC_BLIFE_SQL)
 
-        return cursor.fetchone()
+        result = cursor.fetchone()
+        max_period = result[0]
+
+        return max_period
 
 
 if __name__ == "__main__":
