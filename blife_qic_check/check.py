@@ -8,8 +8,25 @@ WHERE PACKAGE_ID = (SELECT MAX(PACKAGE_ID) FROM STAGE_DO.BLIFE_SMART_PROCESS)
 	AND FORM_NAME = 'QIC освоение';
 """
 
+BRK_BLIFE_SQL = """
+SELECT MAX(PERIOD) FROM STAGE_DO.BLIFE_SMART_PROCESS
+WHERE PACKAGE_ID = (SELECT MAX(PACKAGE_ID) FROM STAGE_DO.BLIFE_SMART_PROCESS)
+	AND FORM_NAME = 'Освоение БРК по прочим объемам поддержки';
+"""
+
 
 def get_max_blife_qic_period():
+    with vertica_python.connect(**settings.db.conn_info) as conn:
+        cursor = conn.cursor()
+        cursor.execute(QIC_BLIFE_SQL)
+
+        result = cursor.fetchone()
+        max_period = result[0]
+
+        return max_period
+
+
+def get_max_blife_brk_period():
     with vertica_python.connect(**settings.db.conn_info) as conn:
         cursor = conn.cursor()
         cursor.execute(QIC_BLIFE_SQL)

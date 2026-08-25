@@ -9,6 +9,7 @@ from blife.api import add_task_in_blife, add_file_on_disk, attach_file_to_task
 from blife.message import make_message_description_for_blife
 from blife_qic_check.check import (
     get_max_blife_qic_period,
+    get_max_blife_brk_period,
 )
 from config import LOGS_DIR, settings
 from logger import logger
@@ -51,9 +52,9 @@ else:
 # Алгоритм для просмотра недогружености в blife QIC
 if today.weekday() == 4:
     if check_blife_smart_process_is_good():
-        max_period = get_max_blife_qic_period()
+        max_period_qic = get_max_blife_qic_period()
 
-        if max_period != yesterday:
+        if max_period_qic != yesterday:
             logger.info(
                 "Обнаружена недогруженность QIC (Освоение), запускается создание задачи в blife."
             )
@@ -63,6 +64,22 @@ if today.weekday() == 4:
                 Добрый день!
                  
             Автоматизированной проверкой выявлено отсутствие данных от QIC (Освоение) за отчетную дату {yesterday}.
+                """,
+                responsible_id=settings.blife.holding_responsible_id,
+            )
+
+        max_period_brk = get_max_blife_brk_period()
+
+        if max_period_brk != yesterday:
+            logger.info(
+                "Обнаружена недогруженность БРК (Освоение по прочим объемам поддержки), запускается создание задачи в blife."
+            )
+            add_task_in_blife(
+                title=f"Не загружены данные за {yesterday} - БРК",
+                description=f"""
+                Добрый день!
+
+            Автоматизированной проверкой выявлено отсутствие данных от БРК (Освоение по прочим объемам поддержки) за отчетную дату {yesterday}.
                 """,
                 responsible_id=settings.blife.holding_responsible_id,
             )
