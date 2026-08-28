@@ -29,7 +29,7 @@ def get_max_blife_qic_period():
 def get_max_blife_brk_period():
     with vertica_python.connect(**settings.db.conn_info) as conn:
         cursor = conn.cursor()
-        cursor.execute(QIC_BLIFE_SQL)
+        cursor.execute(BRK_BLIFE_SQL)
 
         result = cursor.fetchone()
         max_period = result[0]
